@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
     const welcomeTitle = "Welcome to my ToDo List";
     const timeNow = new Date();
 
-    res.render('home', {
+    res.render('list', {
         welcomeTitle: welcomeTitle,
         timeNow: timeNow,
     });
