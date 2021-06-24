@@ -8,7 +8,11 @@ const port = 3000;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use('/static', express.static(path.join(__dirname, 'static')));
+
 app.use(express.urlencoded({extended: true}));
+
+var items = [];
 
 app.get('/', (req, res) => {
 
@@ -24,13 +28,14 @@ app.get('/', (req, res) => {
 
     res.render('list', {
         currentDate: day,
+        items: items,
     });
 });
 
 app.post('/', (req, res) => {
-    console.log(req.body.newItem);
+    items.push(req.body.newItem);
 
-    res.send("<h1>SUCCESS!</h1>");
+    res.redirect('/');
 });
 
 app.listen(port, () => {

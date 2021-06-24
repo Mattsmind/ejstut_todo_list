@@ -1,0 +1,36 @@
+body {
+    background-image: url('fluffy-clouds.jpg');
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header {
+    margin: 1rem auto;
+    background-color: coral;
+    text-align: center;
+    border-radius: 0.8rem;
+    padding: 0 3rem;
+}
+
+.header h1 {
+    color: white;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 7rem;
+}
+
+.itemList {
+    width: 40%;
+    background-color: antiquewhite;
+    border-radius: 0.8rem;
+    padding: 1rem;
+}
+
+.item {
+    margin-left: 0.25rem;
+}
+
+input[type='checkbox']:checked+p {
+    color: gray;
+    text-decoration: line-through;
+    text-decoration-color: purple;
+    text-decoration-thickness: 0.25rem;
+}
