@@ -34,3 +34,7 @@ input[type='checkbox']:checked+p {
     text-decoration-color: purple;
     text-decoration-thickness: 0.25rem;
 }
+
+footer {
+    text-align: center;
+}
