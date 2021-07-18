@@ -7,18 +7,20 @@
         <div class="container container-md itemList">
             
             <% items.forEach( item => { %>
-            <div class="item row">
-                <input type="checkbox" class="col-auto form-check"><p class="col-auto"><%= item %></p>
-            </div>
+            <form action="/delete" method="post">   
+                <div class="item row">
+                    <input type="checkbox" class="col-auto form-check" name="checkbox" value="<%= item._id %>" onchange="this.form.submit();"><p class="col-auto"><%= item.name %></p>
+                </div>
+            </form> 
             <% }) %>   
             
 
-            <form class="row g-2" action=<%= list %> method="post">
+            <form class="row g-2" action="/" method="post">
                 <div class="col-sm-10">
                     <input class="form-control" type="text" name="newItem" id="" autocomplete="off">
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-primary" type="submit">Add Item</button>
+                    <button class="btn btn-primary" type="submit" name="list" value="<%= listTitle %>">Add Item</button>
                 </div>
             </form>
 
