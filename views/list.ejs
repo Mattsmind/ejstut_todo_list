@@ -11,6 +11,7 @@
                 <div class="item row">
                     <input type="checkbox" class="col-auto form-check" name="checkbox" value="<%= item._id %>" onchange="this.form.submit();"><p class="col-auto"><%= item.name %></p>
                 </div>
+                <input type="hidden" name="listName" value="<%= listTitle %>"></input>
             </form> 
             <% }) %>   
             

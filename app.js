@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const _ = require('lodash');
 const date = require(path.join(__dirname + '/modules', 'date.js'));
 
 const app = express();
@@ -80,6 +81,36 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/:listTitle', (req, res) => {
+    const listTitle = _.capitalize(req.params.listTitle);
+
+    List.findOne({ name: listTitle }, (err, result) => {
+        if (!err) {
+            if (!result) {
+                //create new list
+                
+                const list = new List({
+                    name: listTitle,
+                    items: defaultItems
+                });
+
+                list.save();
+                
+                res.redirect('/' + listTitle);
+
+            } else {
+                //show list
+                res.render('list', {
+                    listTitle: result.name,
+                    items: result.items
+                })
+            }
+        } else {
+            console.log(err);
+        }
+    });
+});
+
 app.post('/', (req, res) => {
 
     const itemName = req.body.newItem;
@@ -108,45 +139,30 @@ app.post('/', (req, res) => {
 app.post('/delete', (req, res) => {
 
     const itemId = req.body.checkbox;
+    const listName = req.body.listName;
 
-    Item.findByIdAndRemove( itemId, err => {
-        if (err) {
-            console.log('DELETION ERROR::: %s', err);
-        } else {
-            console.log('Deleted Entry: _id::: %s', itemId);
-            res.redirect('/');
-        }
-    });
-});
-
-app.get('/:listTitle', (req, res) => {
-    const listTitle = req.params.listTitle;
-
-    List.findOne({ name: listTitle }, (err, result) => {
-        if (!err) {
-            if (!result) {
-                //create new list
-                
-                const list = new List({
-                    name: listTitle,
-                    items: defaultItems
-                });
-
-                list.save();
-                
-                res.redirect('/' + listTitle);
-
+    if (listName === date.getDate()) {
+        Item.findByIdAndRemove( itemId, err => {
+            if (!err) {
+                console.log('Deleted Entry: _id::: %s', itemId);
+                res.redirect('/');
             } else {
-                //show list
-                res.render('list', {
-                    listTitle: result.name,
-                    items: result.items
-                })
+                console.log('DELETION ERROR::: %s', err);
             }
-        } else {
-            console.log(err);
-        }
-    });
+        });
+    } else {
+        List.findOneAndUpdate({ name: listName }, { $pull: { items: { _id: itemId } } }, (err, result) => {
+            if (!err) {
+                console.log('Deleted Entry: %s : _id:: %s', listName, itemId);
+                res.redirect('/' + listName);
+            } else {
+                console.log(err);
+            }
+        });
+    }
+
+
+
 });
 
 app.listen(port, () => {
