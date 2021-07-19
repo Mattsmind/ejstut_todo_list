@@ -54,7 +54,6 @@ const listSchema = {
 
 const List = mongoose.model('List', listSchema);
 
-
 app.get('/', (req, res) => {
 
     const day = date.getDate();
@@ -82,13 +81,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:listTitle', (req, res) => {
+    
     const listTitle = _.capitalize(req.params.listTitle);
 
     List.findOne({ name: listTitle }, (err, result) => {
         if (!err) {
             if (!result) {
-                //create new list
-                
                 const list = new List({
                     name: listTitle,
                     items: defaultItems
@@ -99,14 +97,13 @@ app.get('/:listTitle', (req, res) => {
                 res.redirect('/' + listTitle);
 
             } else {
-                //show list
                 res.render('list', {
                     listTitle: result.name,
                     items: result.items
                 })
             }
         } else {
-            console.log(err);
+            console.log('LIST ERROR::::: %s',err);
         }
     });
 });
@@ -130,7 +127,7 @@ app.post('/', (req, res) => {
                 result.save();
                 res.redirect('/' + listName);
             } else {
-                console.log(err);
+                console.log('ERROR LOCATING LIST::::: %s', err);
             }
         });
     }
@@ -144,10 +141,10 @@ app.post('/delete', (req, res) => {
     if (listName === date.getDate()) {
         Item.findByIdAndRemove( itemId, err => {
             if (!err) {
-                console.log('Deleted Entry: _id::: %s', itemId);
+                console.log('Deleted Entry: _id::::: %s', itemId);
                 res.redirect('/');
             } else {
-                console.log('DELETION ERROR::: %s', err);
+                console.log('DELETION ERROR::::: %s', err);
             }
         });
     } else {
@@ -156,13 +153,10 @@ app.post('/delete', (req, res) => {
                 console.log('Deleted Entry: %s : _id:: %s', listName, itemId);
                 res.redirect('/' + listName);
             } else {
-                console.log(err);
+                console.log('UPDATE ERROR::::: %s', err);
             }
         });
     }
-
-
-
 });
 
 app.listen(port, () => {
