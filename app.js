@@ -15,7 +15,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 
 app.use(express.urlencoded({extended: true}));
 
-const uri = 'mongodb://localhost:27017/todolistDB';
+const uri = 'mongodb+srv://mrmattdbadmin:1qazxsw23edcvfr4@cluster0.2ct3s.mongodb.net/todolistDB';
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
