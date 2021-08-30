@@ -149,7 +149,7 @@ app.post('/delete', (req, res) => {
     } else {
         List.findOneAndUpdate({ name: listName }, { $pull: { items: { _id: itemId } } }, (err, result) => {
             if (!err) {
-                console.log('Deleted Entry: %s : _id:: %s', listName, itemId);
+                console.log('Updated Entry: %s : _id:: %s', listName, itemId);
                 res.redirect('/' + listName);
             } else {
                 console.log('UPDATE ERROR::::: %s', err);
