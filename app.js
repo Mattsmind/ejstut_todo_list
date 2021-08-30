@@ -6,7 +6,6 @@ const _ = require('lodash');
 const date = require(path.join(__dirname + '/modules', 'date.js'));
 
 const app = express();
-const port = 3000;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -158,6 +157,11 @@ app.post('/delete', (req, res) => {
         });
     }
 });
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+}
 
 app.listen(port, () => {
     console.log('Todo app up and running on port %s.', port);
