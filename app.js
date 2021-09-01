@@ -14,7 +14,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 
 app.use(express.urlencoded({extended: true}));
 
-const uri = 'mongodb+srv://' + process.env.MONGOUSER + ':' + process.env.MONGOPASS + '@' + process.env.MONGOURI;
+const uri = 'mongodb+srv://' + process.env.MONGOUSER + ':' + process.env.MONGOPASS + '@' + process.env.MONGOURI + '?retryWrites=true&w=majority';
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
